@@ -353,7 +353,59 @@ const bank = [
   {q:"पौधे भोजन बनाने के लिए मुख्य रूप से किसका उपयोग करते हैं?",a:["सूर्य का प्रकाश","प्लास्टिक","रेत","धुआँ"],c:0}
 ];
 
-const $ = id => document.getElementById(id);
+
+  function makeGeneratedQuestions(count = 30) {
+  const generated = [];
+  const used = new Set();
+
+  while (generated.length < count) {
+    const type = Math.floor(Math.random() * 4);
+    let a, b, answer, question;
+
+    if (type === 0) {
+      a = Math.floor(Math.random() * 100) + 1;
+      b = Math.floor(Math.random() * 100) + 1;
+      answer = a + b;
+      question = `${a} + ${b} का उत्तर क्या है?`;
+    } else if (type === 1) {
+      a = Math.floor(Math.random() * 100) + 1;
+      b = Math.floor(Math.random() * a) + 1;
+      answer = a - b;
+      question = `${a} - ${b} का उत्तर क्या है?`;
+    } else if (type === 2) {
+      a = Math.floor(Math.random() * 20) + 1;
+      b = Math.floor(Math.random() * 20) + 1;
+      answer = a * b;
+      question = `${a} × ${b} का उत्तर क्या है?`;
+    } else {
+      b = Math.floor(Math.random() * 12) + 1;
+      answer = Math.floor(Math.random() * 20) + 1;
+      a = b * answer;
+      question = `${a} ÷ ${b} का उत्तर क्या है?`;
+    }
+
+    if (used.has(question)) continue;
+    used.add(question);
+
+    const options = new Set([answer]);
+
+    while (options.size < 4) {
+      const wrong = answer + Math.floor(Math.random() * 21) - 10;
+      if (wrong >= 0 && wrong !== answer) options.add(wrong);
+    }
+
+    const choices = shuffle([...options]);
+
+    generated.push({
+        clearIntervalq: question,
+      a: choices.map(String),
+      c: choices.indexOf(answer)
+    });
+  }
+
+  return generated;
+  }
+  const $ = id => document.getElementById(id);
 let questions = [], index = 0, score = 0, correct = 0;
 let timerId = null, seconds = 15, locked = false;
 const bestKey = "yashuBrainMasterBestV1";
@@ -389,7 +441,10 @@ function updateBest() {
 
 function startGame() {
   clearInterval(timerId);
-  questions = shuffle(bank).slice(0, 10);
+  questions = shuffle([
+  ...bank,
+  ...makeGeneratedQuestions(30)
+]).slice(0, 10);
   index = 0;
   score = 0;
   correct = 0;
@@ -442,7 +497,7 @@ function renderQuestion() {
 function choose(choice) {
   if (locked) return;
   locked = true;
-  clearInterval(timerId);
+(timerId);
 
   const q = questions[index];
   const buttons = [...$("options").querySelectorAll("button")];
