@@ -1,132 +1,530 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#100b20">
 <title>YASHU BRAIN MASTER</title>
+
 <style>
-:root{color-scheme:dark;--bg:#0b0814;--panel:#171128;--panel2:#21163b;--purple:#9b5cff;--pink:#d66bff;--text:#f8f5ff;--muted:#b9aecf;--good:#4ee0a0;--bad:#ff6b86}
-*{box-sizing:border-box}
-body{margin:0;min-height:100vh;background:radial-gradient(ellipse at top,#281449 0%,#100b20 45%,#08060e 100%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;justify-content:center;padding:18px}
-button{font:inherit;cursor:pointer;touch-action:manipulation}
-.app{width:min(100%,560px);margin:auto}
-.top{text-align:center;margin:8px 0 22px}
-.logo{display:inline-grid;place-items:center;width:62px;height:62px;border-radius:20px;background:linear-gradient(135deg,#8d4bff,#df63f5);font-size:30px;box-shadow:0 8px 32px #a044ff45}
-h1{font-size:clamp(25px,7vw,38px);letter-spacing:.04em;margin:12px 0 4px}
-.grad{background:linear-gradient(90deg,#c7a1ff,#f1a0ff);color:transparent;background-clip:text}
-.sub{color:var(--muted);font-size:14px}
-.panel{background:linear-gradient(145deg,#1b1430ed,#120e20f5);border:1px solid #8f65c044;border-radius:24px;padding:22px;box-shadow:0 18px 60px #0005}
-.hidden{display:none!important}
-.pills{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:18px 0}
-.pill{background:#ffffff0b;border:1px solid #ffffff17;border-radius:999px;padding:8px 12px;color:#ddd0f5;font-size:13px}
-.primary{border:0;border-radius:15px;padding:15px 18px;width:100%;font-weight:800;color:white;background:linear-gradient(100deg,#8646f5,#c44fe7);box-shadow:0 8px 25px #8e3cff33}
-.primary:active,.option:active{transform:scale(.99)}
-.secondary{background:#ffffff0b;border:1px solid #ffffff24;color:var(--text);border-radius:13px;padding:12px 15px}
-.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.progress-wrap{height:8px;background:#ffffff14;border-radius:99px;overflow:hidden;margin:18px 0}
-.progress{height:100%;width:0;background:linear-gradient(90deg,#8e55ff,#e26dff);transition:width .2s}
-.question-count{font-size:13px;color:var(--muted)}
-.timer{font-size:14px;font-weight:800;background:#35224f;border:1px solid #9e6cf455;border-radius:12px;padding:8px 11px}
-.timer.urgent{color:#ff879b;border-color:#ff6b8677}
-.question{font-size:clamp(20px,5.4vw,27px);line-height:1.35;margin:24px 0}
-.options{display:grid;gap:11px}
-.option{display:flex;align-items:center;gap:12px;text-align:left;width:100%;padding:14px;border-radius:15px;border:1px solid #ffffff1b;background:#ffffff08;color:var(--text);min-height:58px}
-.letter{display:grid;place-items:center;flex:0 0 34px;height:34px;border-radius:10px;background:#9b5cff24;color:#d4b5ff;font-weight:800}
-.option:disabled{cursor:default;opacity:1}
-.option.correct{border-color:#4ee0a0;background:#4ee0a018}
-.option.wrong{border-color:#ff6b86;background:#ff6b8618}
-.feedback{min-height:26px;margin:14px 0 0;font-size:14px;color:var(--muted)}
-.score-big{font-size:58px;font-weight:900;line-height:1.1;margin:15px 0;background:linear-gradient(90deg,#c5a2ff,#f1a0ff);background-clip:text;color:transparent}
-.result-icon{font-size:48px}
-.result-buttons{display:grid;gap:10px;margin-top:20px}
-.small{font-size:12px;color:var(--muted);text-align:center;margin-top:16px}
-@media(min-width:480px){.panel{padding:28px}.top{margin-top:16px}}
+:root {
+  --bg: #0b0814;
+  --panel: #171128;
+  --purple: #9b5cff;
+  --pink: #d66bff;
+  --text: #f8f5ff;
+  --muted: #b9aecf;
+  --good: #4ee0a0;
+  --bad: #ff6b86;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text);
+  background: radial-gradient(ellipse at top, #281449, #100b20 50%, #08060e);
+  font-family: system-ui, "Noto Sans Devanagari", sans-serif;
+}
+
+.app {
+  width: 100%;
+  max-width: 560px;
+}
+
+.top {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.logo {
+  display: inline-grid;
+  place-items: center;
+  width: 65px;
+  height: 65px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #8d4bff, #df63f5);
+  font-size: 32px;
+}
+
+h1 {
+  font-size: clamp(25px, 7vw, 38px);
+  margin: 12px 0 4px;
+}
+
+.grad {
+  color: #d9b5ff;
+}
+
+.sub, .small, .question-count {
+  color: var(--muted);
+}
+
+.sub {
+  font-size: 14px;
+}
+
+.panel {
+  padding: 22px;
+  border-radius: 24px;
+  border: 1px solid #8f65c044;
+  background: linear-gradient(145deg, #1b1430, #120e20);
+  box-shadow: 0 18px 60px #0005;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 18px 0;
+}
+
+.pill {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid #ffffff17;
+  background: #ffffff0b;
+  color: #ddd0f5;
+  font-size: 13px;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.primary {
+  width: 100%;
+  padding: 15px;
+  border: 0;
+  border-radius: 15px;
+  color: white;
+  font-weight: 800;
+  background: linear-gradient(100deg, #8646f5, #c44fe7);
+}
+
+.secondary {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #ffffff24;
+  border-radius: 13px;
+  color: var(--text);
+  background: #ffffff0b;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.timer {
+  padding: 8px 11px;
+  border-radius: 12px;
+  background: #35224f;
+  font-weight: 800;
+}
+
+.timer.urgent {
+  color: var(--bad);
+}
+
+.progress-wrap {
+  height: 8px;
+  margin: 18px 0;
+  overflow: hidden;
+  border-radius: 99px;
+  background: #ffffff14;
+}
+
+.progress {
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #8e55ff, #e26dff);
+  transition: width .2s;
+}
+
+.question {
+  margin: 24px 0;
+  font-size: clamp(20px, 5.4vw, 27px);
+  line-height: 1.5;
+}
+
+.options {
+  display: grid;
+  gap: 11px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 58px;
+  padding: 14px;
+  text-align: left;
+  color: var(--text);
+  border: 1px solid #ffffff1b;
+  border-radius: 15px;
+  background: #ffffff08;
+}
+
+.letter {
+  display: grid;
+  flex: 0 0 34px;
+  place-items: center;
+  height: 34px;
+  border-radius: 10px;
+  color: #d4b5ff;
+  background: #9b5cff24;
+  font-weight: 800;
+}
+
+.option:disabled {
+  opacity: 1;
+}
+
+.option.correct {
+  border-color: var(--good);
+  background: #4ee0a018;
+}
+
+.option.wrong {
+  border-color: var(--bad);
+  background: #ff6b8618;
+}
+
+.feedback {
+  min-height: 26px;
+  margin: 14px 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.score-big {
+  margin: 15px 0;
+  font-size: 58px;
+  font-weight: 900;
+  color: #d9b5ff;
+}
+
+.result-buttons {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.small {
+  text-align: center;
+  font-size: 12px;
+  margin-top: 16px;
+}
+
+@media (min-width: 480px) {
+  .panel {
+    padding: 28px;
+  }
+}
 </style>
 </head>
+
 <body>
 <main class="app">
+
   <header class="top">
-    <div class="logo" aria-hidden="true">🧠</div>
+    <div class="logo">🧠</div>
     <h1 class="grad">YASHU BRAIN MASTER</h1>
-    <div class="sub">Socho tez. Khelo smart. 🟣</div>
+    <div class="sub">तेज़ सोचो। समझदारी से खेलो! 🚀</div>
   </header>
+
   <section id="start" class="panel">
-    <h2 style="text-align:center;margin:0 0 8px">Brain Challenge mein swagat hai!</h2>
-    <p style="text-align:center;color:var(--muted);line-height:1.6">10 naye sawaal, har sawaal ke liye 15 seconds. Dekho tumhara dimaag kitna tez hai!</p>
-    <div class="pills"><span class="pill">❓ 10 Questions</span><span class="pill">⏱️ 15 sec each</span><span class="pill">⭐ 10 points each</span></div>
-    <div style="margin:22px 0 14px"><div class="row"><span>🏆 Best score</span><strong id="bestStart">0 / 100</strong></div></div>
-    <button id="startBtn" class="primary">GAME START KARO →</button>
-    <div class="small">Free browser game · Yashu Brain Master</div>
+    <h2 style="text-align:center">दिमाग़ी चुनौती में स्वागत है!</h2>
+
+    <p style="text-align:center;color:var(--muted);line-height:1.8">
+      10 सवालों के जवाब दो। हर सवाल के लिए 15 सेकंड मिलेंगे।
+      देखते हैं तुम्हारा दिमाग़ कितना तेज़ है!
+    </p>
+
+    <div class="pills">
+      <span class="pill">❓ 10 सवाल</span>
+      <span class="pill">⏱️ 15 सेकंड</span>
+      <span class="pill">⭐ 10 अंक</span>
+    </div>
+
+    <div class="row">
+      <span>🏆 सबसे अच्छा स्कोर</span>
+      <strong id="bestStart">0 / 100</strong>
+    </div>
+
+    <br>
+    <button id="startBtn" class="primary">🎮 खेल शुरू करें</button>
+    <div class="small">मुफ़्त ब्राउज़र गेम · Yashu Brain Master</div>
   </section>
+
   <section id="quiz" class="panel hidden" aria-live="polite">
-    <div class="row"><span id="counter" class="question-count">Question 1 / 10</span><span id="timer" class="timer">⏱ 15s</span></div>
-    <div class="progress-wrap"><div id="progress" class="progress"></div></div>
-    <div class="row"><span>⭐ Score: <strong id="score">0</strong></span><span class="pill">+10 per correct</span></div>
+    <div class="row">
+      <span id="counter" class="question-count">सवाल 1 / 10</span>
+      <span id="timer" class="timer">⏱️ 15 सेकंड</span>
+    </div>
+
+    <div class="progress-wrap">
+      <div id="progress" class="progress"></div>
+    </div>
+
+    <div class="row">
+      <span>⭐ स्कोर: <strong id="score">0</strong></span>
+      <span class="pill">सही जवाब पर +10</span>
+    </div>
+
     <h2 id="question" class="question"></h2>
     <div id="options" class="options"></div>
     <p id="feedback" class="feedback" aria-live="polite"></p>
-    <button id="nextBtn" class="primary hidden">AGLA SAWAL →</button>
+    <button id="nextBtn" class="primary hidden">अगला सवाल →</button>
   </section>
+
   <section id="results" class="panel hidden" aria-live="polite">
-    <div class="result-icon" id="resultIcon">🏆</div>
-    <h2 id="resultTitle" style="margin:8px 0">Challenge complete!</h2>
-    <p style="color:var(--muted);margin:0">Tumhara score</p>
+    <div id="resultIcon" style="font-size:48px">🏆</div>
+    <h2 id="resultTitle">चुनौती पूरी हुई!</h2>
+    <p style="color:var(--muted)">तुम्हारा स्कोर</p>
     <div id="finalScore" class="score-big">0 / 100</div>
-    <p id="resultMessage" style="line-height:1.6"></p>
-    <div class="pills"><span class="pill" id="correctPill">✅ Correct: 0</span><span class="pill" id="bestPill">🏆 Best: 0 / 100</span></div>
-    <div class="result-buttons"><button id="restartBtn" class="primary">🔄 DOBARA KHELO</button><button id="homeBtn" class="secondary">HOME PAR JAO</button></div>
+    <p id="resultMessage" style="line-height:1.8"></p>
+
+    <div class="pills">
+      <span id="correctPill" class="pill">✅ सही जवाब: 0 / 10</span>
+      <span id="bestPill" class="pill">🏆 सबसे अच्छा स्कोर: 0 / 100</span>
+    </div>
+
+    <div class="result-buttons">
+      <button id="restartBtn" class="primary">🔄 दोबारा खेलें</button>
+      <button id="homeBtn" class="secondary">🏠 मुख्य पेज पर जाएँ</button>
+    </div>
   </section>
-  <p class="small">Best score isi browser mein save hota hai.</p>
+
+  <p class="small">तुम्हारा सबसे अच्छा स्कोर इसी ब्राउज़र में सेव होगा।</p>
 </main>
+
 <script>
 const bank = [
- {q:"Ek hafte mein kitne din hote hain?",a:["5","6","7","8"],c:2},
- {q:"2, 4, 6, 8, agla number kya hai?",a:["9","10","11","12"],c:1},
- {q:"Suraj kis disha se ugta hai?",a:["Uttar","Dakshin","Paschim","Purab"],c:3},
- {q:"Inmein se kaunsa ek fruit hai?",a:["Gajar","Aam","Aloo","Pyaaz"],c:1},
- {q:"5 × 6 kitna hota hai?",a:["11","25","30","35"],c:2},
- {q:"Ek saal mein aam taur par kitne mahine hote hain?",a:["10","11","12","13"],c:2},
- {q:"Kaunsa jaanwar 'King of the Jungle' ke naam se jaana jaata hai?",a:["Sher","Haathi","Ghoda","Bandar"],c:0},
- {q:"Agar tumhare paas 10 aam hain aur 3 de diye, kitne bache?",a:["6","7","8","13"],c:1},
- {q:"Paani jamkar kya banta hai?",a:["Bhaap","Barf","Dhuaan","Mitti"],c:1},
- {q:"Kaunsa number odd hai?",a:["12","18","21","30"],c:2},
- {q:"English alphabet mein kitne letters hote hain?",a:["24","25","26","27"],c:2},
- {q:"9 + 8 kitna hota hai?",a:["15","16","17","18"],c:2},
- {q:"Ek triangle ki kitni sides hoti hain?",a:["2","3","4","5"],c:1},
- {q:"Kaunsa planet Red Planet ke naam se jaana jaata hai?",a:["Earth","Mars","Venus","Jupiter"],c:1},
- {q:"Computer ka 'brain' aam taur par kise kehte hain?",a:["Mouse","Keyboard","CPU","Monitor"],c:2},
- {q:"12 ÷ 3 kitna hota hai?",a:["3","4","6","9"],c:1},
- {q:"Din ke baad kya aata hai?",a:["Raat","Subah","Dopahar","Kal"],c:0},
- {q:"Kaunsi shape gol hoti hai?",a:["Square","Triangle","Circle","Rectangle"],c:2},
- {q:"100 mein se 25 ghatao.",a:["65","70","75","85"],c:2},
- {q:"Ek ghante mein kitne minutes hote hain?",a:["30","45","60","90"],c:2},
- {q:"Inmein se kaunsa paani mein reh sakta hai?",a:["Machhli","Billi","Sher","Oont"],c:0},
- {q:"3 × 4 kitna hota hai?",a:["7","10","12","14"],c:2},
- {q:"Kaunsa rang aasman se aksar juda hota hai?",a:["Neela","Hara","Kaala","Gulabi"],c:0},
- {q:"Agar aaj Monday hai, kal kaunsa din hoga?",a:["Sunday","Tuesday","Friday","Saturday"],c:1},
- {q:"Kaunsi gas hum saans lene ke liye use karte hain?",a:["Oxygen","Helium","Neon","Hydrogen"],c:0},
- {q:"15 + 5 kitna hota hai?",a:["18","19","20","21"],c:2},
- {q:"Kaunsa device photo lene ke liye use hota hai?",a:["Camera","Speaker","Fan","Printer"],c:0},
- {q:"10 ka aadha kitna hai?",a:["2","4","5","10"],c:2},
- {q:"Kaunsa season aam taur par sabse thanda hota hai?",a:["Garmi","Sardi","Barsaat","Basant"],c:1},
- {q:"Ek dozen mein kitni cheezein hoti hain?",a:["10","11","12","20"],c:2}
+  {q:"एक सप्ताह में कितने दिन होते हैं?",a:["5","6","7","8"],c:2},
+  {q:"2, 4, 6, 8 के बाद अगली संख्या क्या है?",a:["9","10","11","12"],c:1},
+  {q:"सूरज किस दिशा से उगता है?",a:["उत्तर","दक्षिण","पश्चिम","पूर्व"],c:3},
+  {q:"इनमें से कौन-सा फल है?",a:["गाजर","आम","आलू","प्याज़"],c:1},
+  {q:"5 × 6 कितना होता है?",a:["11","25","30","35"],c:2},
+  {q:"एक साल में कितने महीने होते हैं?",a:["10","11","12","13"],c:2},
+  {q:"किस जानवर को जंगल का राजा कहा जाता है?",a:["शेर","हाथी","घोड़ा","बंदर"],c:0},
+  {q:"10 आम में से 3 आम दे दिए। कितने आम बचे?",a:["6","7","8","13"],c:1},
+  {q:"पानी जमने पर क्या बनता है?",a:["भाप","बर्फ","धुआँ","मिट्टी"],c:1},
+  {q:"इनमें से कौन-सी विषम संख्या है?",a:["12","18","21","30"],c:2},
+  {q:"अंग्रेज़ी वर्णमाला में कितने अक्षर होते हैं?",a:["24","25","26","27"],c:2},
+  {q:"9 + 8 कितना होता है?",a:["15","16","17","18"],c:2},
+  {q:"त्रिभुज की कितनी भुजाएँ होती हैं?",a:["2","3","4","5"],c:1},
+  {q:"किस ग्रह को लाल ग्रह कहते हैं?",a:["पृथ्वी","मंगल","शुक्र","बृहस्पति"],c:1},
+  {q:"कंप्यूटर का दिमाग़ आम तौर पर किसे कहते हैं?",a:["माउस","कीबोर्ड","सीपीयू","मॉनिटर"],c:2},
+  {q:"12 ÷ 3 कितना होता है?",a:["3","4","6","9"],c:1},
+  {q:"दिन के बाद क्या आता है?",a:["रात","सुबह","दोपहर","कल"],c:0},
+  {q:"इनमें से कौन-सी आकृति गोल होती है?",a:["वर्ग","त्रिभुज","वृत्त","आयत"],c:2},
+  {q:"100 में से 25 घटाओ।",a:["65","70","75","85"],c:2},
+  {q:"एक घंटे में कितने मिनट होते हैं?",a:["30","45","60","90"],c:2},
+  {q:"इनमें से कौन पानी में रह सकता है?",a:["मछली","बिल्ली","शेर","ऊँट"],c:0},
+  {q:"3 × 4 कितना होता है?",a:["7","10","12","14"],c:2},
+  {q:"आसमान से आम तौर पर कौन-सा रंग जुड़ा है?",a:["नीला","हरा","काला","गुलाबी"],c:0},
+  {q:"अगर आज सोमवार है, तो कल कौन-सा दिन होगा?",a:["रविवार","मंगलवार","शुक्रवार","शनिवार"],c:1},
+  {q:"साँस लेने के लिए हमें किस गैस की ज़रूरत होती है?",a:["ऑक्सीजन","हीलियम","नियॉन","हाइड्रोजन"],c:0},
+  {q:"15 + 5 कितना होता है?",a:["18","19","20","21"],c:2},
+  {q:"तस्वीर लेने के लिए किस उपकरण का उपयोग होता है?",a:["कैमरा","स्पीकर","पंखा","प्रिंटर"],c:0},
+  {q:"10 का आधा कितना है?",a:["2","4","5","10"],c:2},
+  {q:"इनमें से कौन-सा मौसम आम तौर पर सबसे ठंडा होता है?",a:["गर्मी","सर्दी","बरसात","बसंत"],c:1},
+  {q:"एक दर्जन में कितनी चीज़ें होती हैं?",a:["10","11","12","20"],c:2},
+  {q:"भारत की राजधानी क्या है?",a:["मुंबई","नई दिल्ली","जयपुर","लखनऊ"],c:1},
+  {q:"पौधे भोजन बनाने के लिए मुख्य रूप से किसका उपयोग करते हैं?",a:["सूर्य का प्रकाश","प्लास्टिक","रेत","धुआँ"],c:0}
 ];
-const $=id=>document.getElementById(id);
-let questions=[],index=0,score=0,correct=0,timerId=null,seconds=15,locked=false;
-const bestKey="yashuBrainMasterBestV1";
-function getBest(){try{return Number(localStorage.getItem(bestKey))||0}catch(e){return 0}}
-function setBest(n){try{localStorage.setItem(bestKey,String(n))}catch(e){}}
-function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function show(which){["start","quiz","results"].forEach(id=>$(id).classList.toggle("hidden",id!==which))}
-function updateBest(){const b=getBest();$("bestStart").textContent=b+" / 100"}
-function startGame(){clearInterval(timerId);questions=shuffle(bank).slice(0,10);index=0;score=0;correct=0;show("quiz");renderQuestion()}
-function renderQuestion(){locked=false;seconds=15;$("counter").textContent=`Question ${index+1} / 10`;$("timer").textContent=`⏱ ${seconds}s`;$("timer").classList.remove("urgent");$("score").textContent=score;$("progress").style.width=(index/10*100)+"%";$("question").textContent=questions[index].q;$("feedback").textContent="";$("nextBtn").classList.add("hidden");$("options").innerHTML="";questions[index].a.forEach((answer,i)=>{const b=document.createElement("button");b.className="option";b.innerHTML=`<span class="letter">${String.fromCharCode(65+i)}</span><span>${answer}</span>`;b.addEventListener("click",()=>choose(i));$("options").appendChild(b)});timerId=setInterval(()=>{seconds--;$("timer").textContent=`⏱ ${seconds}s`;if(seconds<=5)$("timer").classList.add("urgent");if(seconds<=0){clearInterval(timerId);choose(-1)}},1000)}
-function choose(choice){if(locked)return;locked=true;clearInterval(timerId);const q=questions[index];const buttons=[...$("options").querySelectorAll("button")];buttons.forEach((b,i)=>{b.disabled=true;if(i===q.c)b.classList.add("correct");if(i===choice&&choice!==q.c)b.classList.add("wrong")});if(choice===q.c){score+=10;correct++;$("feedback").textContent="Bilkul sahi! +10 points 🎉";$("feedback").style.color="var(--good)";try{if(navigator.vibrate)navigator.vibrate(50)}catch(e){}}else{$("feedback").textContent=choice===-1?"Time up! Sahi jawab: "+q.a[q.c]:"Sahi jawab: "+q.a[q.c];$("feedback").style.color="var(--bad)"}$("score").textContent=score;$("progress").style.width=((index+1)/10*100)+"%";$("nextBtn").textContent=index===9?"RESULT DEKHO →":"AGLA SAWAL →";$("nextBtn").classList.remove("hidden")}
-function nextQuestion(){if(!locked)return;if(index<9){index++;renderQuestion()}else finishGame()}
-function finishGame(){clearInterval(timerId);const old=getBest();if(score>old)setBest(score);show("results");$("finalScore").textContent=score+" / 100";$("correctPill").textContent="✅ Correct: "+correct+" / 10";$("bestPill").textContent="🏆 Best: "+getBest()+" / 100";$("resultIcon").textContent=score===100?"🏆":score>=70?"🔥":score>=40?"🧠":"💪";$("resultTitle").textContent=score===100?"Brain Master!":score>=70?"Shandaar khela!":score>=40?"Achha effort!":"Practice jaari rakho!";$("resultMessage").textContent=score===100?"Perfect score! Tum sach mein Brain Master ho.":score>=70?"Bahut badhiya! Ek baar aur khelo aur 100/100 laane ki koshish karo.":"Koi baat nahi—har round se seekho. Dobara khelo aur apna best score badhao!";updateBest()}
-function goHome(){clearInterval(timerId);updateBest();show("start")}
-$("startBtn").addEventListener("click",startGame);$("nextBtn").addEventListener("click",nextQuestion);$("restartBtn").addEventListener("click",startGame);$("homeBtn").addEventListener("click",goHome);updateBest();
+
+const $ = id => document.getElementById(id);
+let questions = [], index = 0, score = 0, correct = 0;
+let timerId = null, seconds = 15, locked = false;
+const bestKey = "yashuBrainMasterBestV1";
+
+function getBest() {
+  try { return Number(localStorage.getItem(bestKey)) || 0; }
+  catch (e) { return 0; }
+}
+
+function setBest(n) {
+  try { localStorage.setItem(bestKey, String(n)); }
+  catch (e) {}
+}
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function show(which) {
+  ["start", "quiz", "results"].forEach(id =>
+    $(id).classList.toggle("hidden", id !== which)
+  );
+}
+
+function updateBest() {
+  $("bestStart").textContent = getBest() + " / 100";
+}
+
+function startGame() {
+  clearInterval(timerId);
+  questions = shuffle(bank).slice(0, 10);
+  index = 0;
+  score = 0;
+  correct = 0;
+  show("quiz");
+  renderQuestion();
+}
+
+function renderQuestion() {
+  locked = false;
+  seconds = 15;
+  $("counter").textContent = `सवाल ${index + 1} / 10`;
+  $("timer").textContent = `⏱️ ${seconds} सेकंड`;
+  $("timer").classList.remove("urgent");
+  $("score").textContent = score;
+  $("progress").style.width = (index / 10 * 100) + "%";
+  $("question").textContent = questions[index].q;
+  $("feedback").textContent = "";
+  $("nextBtn").classList.add("hidden");
+  $("options").innerHTML = "";
+
+  questions[index].a.forEach((answer, i) => {
+    const button = document.createElement("button");
+    button.className = "option";
+
+    const letter = document.createElement("span");
+    letter.className = "letter";
+    letter.textContent = String.fromCharCode(65 + i);
+
+    const text = document.createElement("span");
+    text.textContent = answer;
+
+    button.append(letter, text);
+    button.addEventListener("click", () => choose(i));
+    $("options").appendChild(button);
+  });
+
+  timerId = setInterval(() => {
+    seconds--;
+    $("timer").textContent = `⏱️ ${seconds} सेकंड`;
+
+    if (seconds <= 5) $("timer").classList.add("urgent");
+
+    if (seconds <= 0) {
+      clearInterval(timerId);
+      choose(-1);
+    }
+  }, 1000);
+}
+
+function choose(choice) {
+  if (locked) return;
+  locked = true;
+  clearInterval(timerId);
+
+  const q = questions[index];
+  const buttons = [...$("options").querySelectorAll("button")];
+
+  buttons.forEach((button, i) => {
+    button.disabled = true;
+    if (i === q.c) button.classList.add("correct");
+    if (i === choice && choice !== q.c) button.classList.add("wrong");
+  });
+
+  if (choice === q.c) {
+    score += 10;
+    correct++;
+    $("feedback").textContent = "बिल्कुल सही! +10 अंक 🎉";
+    $("feedback").style.color = "var(--good)";
+    try {
+      if (navigator.vibrate) navigator.vibrate(50);
+    } catch (e) {}
+  } else {
+    $("feedback").textContent = choice === -1
+      ? "समय समाप्त! सही जवाब: " + q.a[q.c]
+      : "सही जवाब: " + q.a[q.c];
+    $("feedback").style.color = "var(--bad)";
+  }
+
+  $("score").textContent = score;
+  $("progress").style.width = ((index + 1) / 10 * 100) + "%";
+  $("nextBtn").textContent = index === 9
+    ? "नतीजे देखें →"
+    : "अगला सवाल →";
+  $("nextBtn").classList.remove("hidden");
+}
+
+function nextQuestion() {
+  if (!locked) return;
+  if (index < 9) {
+    index++;
+    renderQuestion();
+  } else {
+    finishGame();
+  }
+}
+
+function finishGame() {
+  clearInterval(timerId);
+
+  const old = getBest();
+  if (score > old) setBest(score);
+
+  show("results");
+  $("finalScore").textContent = score + " / 100";
+  $("correctPill").textContent = "✅ सही जवाब: " + correct + " / 10";
+  $("bestPill").textContent = "🏆 सबसे अच्छा स्कोर: " + getBest() + " / 100";
+
+  $("resultIcon").textContent =
+    score === 100 ? "🏆" : score >= 70 ? "🔥" : score >= 40 ? "🧠" : "💪";
+
+  $("resultTitle").textContent =
+    score === 100 ? "दिमाग़ के उस्ताद!" :
+    score >= 70 ? "शानदार खेल!" :
+    score >= 40 ? "अच्छी कोशिश!" : "अभ्यास जारी रखो!";
+
+  $("resultMessage").textContent =
+    score === 100 ? "कमाल! तुमने पूरे 100 में से 100 अंक पाए।" :
+    score >= 70 ? "बहुत बढ़िया! फिर खेलो और अपना स्कोर बढ़ाओ।" :
+    "कोई बात नहीं। अभ्यास करते रहो और अगली बार बेहतर स्कोर लाओ!";
+
+  updateBest();
+}
+
+function goHome() {
+  clearInterval(timerId);
+  updateBest();
+  show("start");
+}
+
+$("startBtn").addEventListener("click", startGame);
+$("nextBtn").addEventListener("click", nextQuestion);
+$("restartBtn").addEventListener("click", startGame);
+$("homeBtn").addEventListener("click", goHome);
+
+updateBest();
 </script>
 </body>
 </html>
